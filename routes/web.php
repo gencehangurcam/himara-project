@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\AllController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AllController::class, 'home'])->name("home");
 Route::get('/rooms', [AllController::class, 'rooms'])->name("rooms");
 Route::get('/team', [AllController::class, 'team'])->name("team");
-Route::get('/gallery', [AllController::class, 'gallery'])->name("gallery");
+Route::get('/gallery', [AllController::class, 'gallery'])->name("gallery.all");
 Route::get('/contact', [AllController::class, 'contact'])->name("contact");
 Route::get('/blog', [AllController::class, 'blog'])->name("blog");
 
@@ -49,21 +54,38 @@ Route::get('/dashboard/room', function () {
     return view('admin.room.index');
 })->middleware(['auth'])->name('room.index');
 
-Route::get('/dashboard/staff', function () {
-    return view('admin.staff.index');
-})->middleware(['auth'])->name('staff.index');
+// Route::get('/dashboard/staff', function () {
+//     return view('admin.staff.index');
+// })->middleware(['auth'])->name('staff.index');
 
 Route::get('/dashboard/blog', function () {
     return view('admin.blog.index');
 })->middleware(['auth'])->name('blog.index');
 
-Route::get('/dashboard/gallery', function () {
-    return view('admin.gallery.index');
-})->middleware(['auth'])->name('gallery.index');
+// Route::get('/dashboard/gallery', function () {
+//     return view('admin.gallery.index');
+// })->middleware(['auth'])->name('gallery.index');
 
 
 Route::get('/dashboard/contact', function () {
     return view('admin.contact.index');
 })->middleware(['auth'])->name('contact.index');
+
+
+// gallery admin
+Route::resource('/dashboard/gallery', GalleryController::class);
+
+// comments admin
+Route::resource('/dashboard/comment', CommentController::class);
+
+// team admin
+Route::resource('/dashboard/team', TeamController::class);
+
+// contact admin
+Route::resource('/dashboard/contact', ContactController::class);
+
+// blog admin
+Route::resource('/dashboard/blog', BlogController::class);
+
 
 require __DIR__.'/auth.php';

@@ -3,42 +3,9 @@
 @section('content')
 
 <div class="d-flex p-2 m-2">
-<h1>Partie Admin Gallery</h1>
-
-    <a class="btn btn-primary m-auto" href="{{ route("images.create") }}">create</a>
-
+    <h1>Partie Admin Gallery</h1>
+    <a class="btn btn-primary m-auto" href="{{ route("gallery.create") }}">create</a>
 </div>
-
-{{-- <section class="section">
-    <div class="row">
-        @foreach ($imageAll as $item)
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h4>{{ $item->nom }}</h4>
-                    <p>{{ $item->url }}</p>
-                </div>
-                <div class="card-body">
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item">
-                                <img src="{{ asset('/images/gallery/'. $item->url) }}" class="d-block w-100" alt="...">
-                            </div>
-                            <div class="carousel-item active">
-                                <img src="{{ asset('/images/gallery/'. $item->url) }}" class="d-block w-100" alt="...">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        @endforeach
-
-
-    </div>
-</section> --}}
 
 <section id="content-types">
     <div class="row">
@@ -56,7 +23,7 @@
                         <p class="card-text">
                            {{ $item->url}}
                         </p>
-                        <form action="{{ route('images.destroy', $item->id) }}" method="post">
+                        <form action="{{ route('gallery.destroy', $item->id) }}" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger block">Delete</button>

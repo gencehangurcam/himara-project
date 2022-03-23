@@ -32,8 +32,8 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item {{ Request::is('dashboard/staff') ? 'active' : ''; }}">
-                    <a href={{ route("staff.index") }} class='sidebar-link'>
+                <li class="sidebar-item {{ Request::is('dashboard/team') ? 'active' : ''; }}">
+                    <a href={{ route("team.index") }} class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Team</span>
                     </a>

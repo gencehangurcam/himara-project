@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gallerie;
+use App\Models\Fonction;
 use Illuminate\Http\Request;
 
-class GallerieController extends Controller
+class FonctionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class GallerieController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Gallerie  $gallerie
+     * @param  \App\Models\Fonction  $fonction
      * @return \Illuminate\Http\Response
      */
-    public function show(Gallerie $gallerie)
+    public function show(Fonction $fonction)
     {
         //
     }
@@ -52,10 +52,10 @@ class GallerieController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Gallerie  $gallerie
+     * @param  \App\Models\Fonction  $fonction
      * @return \Illuminate\Http\Response
      */
-    public function edit(Gallerie $gallerie)
+    public function edit(Fonction $fonction)
     {
         //
     }
@@ -64,10 +64,10 @@ class GallerieController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Gallerie  $gallerie
+     * @param  \App\Models\Fonction  $fonction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gallerie $gallerie)
+    public function update(Request $request, Fonction $fonction)
     {
         //
     }
@@ -75,10 +75,10 @@ class GallerieController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Gallerie  $gallerie
+     * @param  \App\Models\Fonction  $fonction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gallerie $gallerie)
+    public function destroy(Fonction $fonction)
     {
         //
     }

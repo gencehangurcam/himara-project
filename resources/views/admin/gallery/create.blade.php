@@ -10,7 +10,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" action="{{ route('images.store') }}" method="POST" enctype="multipart/form-data">
+                            <form class="form" action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 col-12">

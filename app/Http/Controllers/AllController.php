@@ -7,6 +7,7 @@ use App\Models\categorieArticle;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Gallery;
+use App\Models\Info;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,8 @@ class AllController extends Controller
     }
     public function contact()
     {
-        return view('template.pages.contact');
+        $infos = Info::first();
+        return view('template.pages.contact', compact("infos"));
     }
 
 

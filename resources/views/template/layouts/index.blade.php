@@ -117,7 +117,7 @@
                         <a href="{{ route("team") }}">TEAM</a>
                     </li>
                     <li class="menu-item dropdown">
-                        <a href="{{ route("gallery") }}">GALLERY</a>
+                        <a href="{{ route("gallery.all") }}">GALLERY</a>
                     </li>
                     <li class="menu-item">
                         <a href="{{ route("contact") }}">CONTACT US</a>
