@@ -29,6 +29,15 @@ class DatabaseSeeder extends Seeder
             TagSeeder::class,
             ArticleSeeder::class,
             CommentSeeder::class,
+
+            //for contact
+            ContactSeeder::class,
+            InfoSeeder::class,
+
+            // //for team
+            FonctionSeeder::class,
+            TeamSeeder::class,
+
         ]);
     }
 }

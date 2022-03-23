@@ -3,85 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Mail\ContactSender;
 use App\Models\Info;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $info = Info::first();
         return view("admin.contact.index", compact("info"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    // c pour le mail
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'fullname' => 'required|string',
+            'email' => 'required|string',
+            'phone' => 'required',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+
+        $contact = new Contact();
+
+        $contact->fullname = $request->fullname;
+        $contact->email = $request->email;
+        $contact->phone = $request->phone;
+        $contact->subject = $request->subject;
+        $contact->message = $request->message;
+
+        $contact->save();
+        Mail::to($contact->email,$contact->fullname)->send(new ContactSender($contact->fullname,$contact->message));
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Contact $contact)
+    // pour la partie droite
+    public function edit(Info $info)
     {
-        //
+
+        return view("admin.contact.edit",compact("info"));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Contact $contact)
+    public function update(Request $request, Info $infos)
     {
-        //
-    }
+        $request->validate([
+            'adresse' => 'required',
+            'mail' => 'required',
+            'telephone' => 'required',
+            'fax' => 'required',
+            'message' => 'required',
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Contact $contact)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Contact $contact)
-    {
-        //
+        $infos->adresse = $request->adresse;
+        $infos->mail = $request->mail;
+        $infos->telephone = $request->telephone;
+        $infos->fax = $request->fax;
+        $infos->message = $request->message;
+        $infos->save();
+        return redirect()->route('contacts.index')->with('success', 'contacts ' . $request->adresse .' modifiée !');
     }
 }

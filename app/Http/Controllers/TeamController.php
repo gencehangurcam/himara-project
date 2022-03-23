@@ -91,7 +91,7 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        // $teams = Team::all();
+        $teams = Team::all();
         return view("admin.team.edit",compact("teams"));
     }
 
@@ -105,7 +105,6 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-
         $request->validate([
             'img' => 'required',
             'fullname' => 'required',

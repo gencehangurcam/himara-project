@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class FonctionSeeder extends Seeder
 {
@@ -14,6 +14,15 @@ class FonctionSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('fonctions')->insert([
+            ["fonction"=>"HOUSEKEEPER",],
+            ["fonction"=>"RECEPTIONIST",],
+            ["fonction"=>"CHEF",],
+            ["fonction"=>"HOTEL MANAGER",],
+            ["fonction"=>"ROOM SERVICE",],
+            ["fonction"=>"MARKETING ADVISOR",],
+            ["fonction"=>"HOTEL MANAGER",],
+        ]);
+
     }
 }

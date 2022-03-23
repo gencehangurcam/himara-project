@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\Gallery;
 use App\Models\Info;
 use App\Models\Tag;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 
@@ -24,7 +25,11 @@ class AllController extends Controller
     }
     public function team()
     {
-        return view('template.pages.team');
+
+        $team = Team::where("fonction_id","!=",1)->latest()->take(8)->get();
+        $houseKeeper = Team::where("fonction_id",1)->first();
+
+        return view('template.pages.team',compact("team","houseKeeper"));
     }
     public function gallery()
     {

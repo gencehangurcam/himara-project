@@ -1,4 +1,4 @@
-@extends('layouts.layouts.index')
+@extends('template.layouts.index')
 
 @section('content')
     <div class="wrapper">

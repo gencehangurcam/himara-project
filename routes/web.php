@@ -82,10 +82,15 @@ Route::resource('/dashboard/comment', CommentController::class);
 Route::resource('/dashboard/team', TeamController::class);
 
 // contact admin
-Route::resource('/dashboard/contact', ContactController::class);
+Route::post('/mail/test/contact', [ContactController::class,"store"])->name('contact.store');
 
-// blog admin
-Route::resource('/dashboard/blog', BlogController::class);
+// contact crud
+// edit
+route::get("/admin/contacts/info/{info}/editindex",[ContactController::class,"edit"])->name("contacts.edit");
+// update
+route::put("/admin/contacts/info/{info}/updateindex",[ContactController::class,"update"])->name("contacts.update");
+//affichage
+Route::get('/dashboard/contact', [ContactController::class,"index"])->middleware(["auth"])->name('contact.index');
 
 
 require __DIR__.'/auth.php';
