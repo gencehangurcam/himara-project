@@ -1,6 +1,7 @@
 @extends("template.layouts.index")
 
 @section('content')
+<div class="wrapper">
     <!-- ========== REVOLUTION SLIDER ========== -->
     <div class="slider">
         <div id="rev-slider-1" class="rev_slider gradient-slider" style="display:none" data-version="5.4.5">
@@ -8,9 +9,9 @@
                 <!-- SLIDE NR. 1 -->
                 <li data-transition="crossfade">
                     <!-- MAIN IMAGE -->
-                    <img src="images/slider/slider1.jpg" alt="Image" title="Image" data-bgposition="center center"
-                        data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg"
-                        data-no-retina="">
+                    <img src="{{ asset($carousel[0]->url) }}" alt="Image" title="Image"
+                        data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"
+                        data-bgparallax="10" class="rev-slidebg" data-no-retina="">
                     <!-- LAYER NR. 1 -->
                     <h1 class="tp-caption tp-resizeme" data-x="center" data-hoffset="" data-y="320" data-voffset=""
                         data-responsive_offset="on" data-fontsize="['80','50','40','30']"
@@ -63,9 +64,9 @@
                 <!-- SLIDE NR. 2 -->
                 <li data-transition="crossfade">
                     <!-- MAIN IMAGE -->
-                    <img src="images/slider/slider3.jpg" alt="Image" title="Image" data-bgposition="center center"
-                        data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg"
-                        data-no-retina="">
+                    <img src="{{ asset($carousel[1]->url) }}" alt="Image" title="Image"
+                        data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"
+                        data-bgparallax="10" class="rev-slidebg" data-no-retina="">
                     <!-- LAYER NR. 1 -->
                     <div class="tp-caption tp-resizeme" data-x="center" data-hoffset="" data-y="320" data-voffset=""
                         data-responsive_offset="on" data-fontsize="['70','50','40','25']"
@@ -83,9 +84,9 @@
                 <!-- SLIDE NR. 3 -->
                 <li data-transition="crossfade">
                     <!-- MAIN IMAGE -->
-                    <img src="images/slider/slider13.jpg" alt="Image" title="Image" data-bgposition="center center"
-                        data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg"
-                        data-no-retina="">
+                    <img src="{{ asset($carousel[2]->url) }}" alt="Image" title="Image"
+                        data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"
+                        data-bgparallax="10" class="rev-slidebg" data-no-retina="">
                     <!-- LAYER NR. 1 -->
                     <div class="tp-caption tp-resizeme" data-x="center" data-hoffset="" data-y="305" data-voffset=""
                         data-responsive_offset="on" data-fontsize="['80','70','60','40']"
@@ -108,19 +109,21 @@
                 <div class="inner box-shadow-007">
                     <!-- ========== BOOKING NOTIFICATION ========== -->
                     <div id="booking-notification" class="notification"></div>
-                    <form id="booking-form">
+                    <form action="{{ route("reservation.store") }}" method="POST">
+                        @csrf
                         <!-- NAME -->
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Name
                                         <a href="#" title="Your Name" data-toggle="popover" data-placement="top"
-                                            data-trigger="hover" data-content="Please type your first name and last name">
+                                            data-trigger="hover"
+                                            data-content="Please type your first name and last name">
                                             <i class="fa fa-info-circle"></i>
                                         </a>
                                     </label>
-                                    <input class="form-control" name="booking-name" type="text" data-trigger="hover"
-                                        placeholder="Write Your Name">
+                                    <input class="form-control" name="nom" type="text"
+                                        data-trigger="hover" placeholder="Write Your Name">
                                 </div>
                             </div>
                             <!-- EMAIL -->
@@ -132,7 +135,7 @@
                                             <i class="fa fa-info-circle"></i>
                                         </a>
                                     </label>
-                                    <input class="form-control" name="booking-email" type="email"
+                                    <input class="form-control" name="email" type="email"
                                         placeholder="Write your Email">
                                 </div>
                             </div>
@@ -145,11 +148,15 @@
                                             <i class="fa fa-info-circle"></i>
                                         </a>
                                     </label>
-                                    <select class="form-control" name="booking-roomtype" title="Select Room Type"
+
+                                    <select class="form-control" name="category_room_id" title="Select Room Type"
                                         data-header="Room Type">
-                                        <option value="Single">Single Room</option>
-                                        <option value="Double">Double Room</option>
-                                        <option value="Deluxe">Deluxe Room</option>
+                                        @foreach ($categories as $item)
+
+                                        <option value="{{ $item->id }}">{{ $item->nom }}</option>
+                                        @endforeach
+                                        {{-- <option value="Double">Double Room</option>
+                                        <option value="Deluxe">Deluxe Room</option> --}}
                                     </select>
                                 </div>
                             </div>
@@ -157,13 +164,13 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Check-In/Out
-                                        <a href="#" title="Check-In / Check-Out" data-toggle="popover" data-placement="top"
-                                            data-trigger="hover"
+                                        <a href="#" title="Check-In / Check-Out" data-toggle="popover"
+                                            data-placement="top" data-trigger="hover"
                                             data-content="Please select check-in and check-out date <br>*Check In from 11:00am">
                                             <i class="fa fa-info-circle"></i>
                                         </a>
                                     </label>
-                                    <input type="text" class="datepicker form-control" name="booking-date"
+                                    <input type="text" class="datepicker form-control" name="booking_date"
                                         placeholder="Arrival & Departure" readonly="readonly">
                                 </div>
                             </div>
@@ -191,7 +198,7 @@
                                                 </label>
                                                 <div class="guests-button">
                                                     <div class="minus"></div>
-                                                    <input type="text" name="booking-adults" class="booking-guests"
+                                                    <input type="text" name="adult" class="booking-guests"
                                                         value="0">
                                                     <div class="plus"></div>
                                                 </div>
@@ -206,8 +213,8 @@
                                                 </label>
                                                 <div class="guests-button">
                                                     <div class="minus"></div>
-                                                    <input type="text" name="booking-children" class="booking-guests"
-                                                        value="0">
+                                                    <input type="text" name="enfant"
+                                                        class="booking-guests" value="0">
                                                     <div class="plus"></div>
                                                 </div>
                                             </div>
@@ -219,7 +226,8 @@
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-book">BOOK A ROOM</button>
                                 <div class="advanced-form-link">
-                                    <a href="booking-form.html">
+                                    <a href={{ route("reservRoom") }}>
+                                        {{-- <a href="booking-form.html"> --}}
                                         Advanced Booking Form
                                     </a>
                                 </div>
@@ -236,18 +244,20 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="section-title">
-                        <h4 class="text-uppercase">Hotel Himara. <span class="text-himara"> since 1992</span></h4>
+                        <h4 class="text-uppercase">Hotel Himara. <span class="text-himara"> since 1992</span>
+                        </h4>
                         <p class="section-subtitle">High quality accommodation services</p>
                     </div>
                     <div class="info-branding">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus deleniti nulla, hic
-                            voluptatibus eum voluptatum libero suscipit nemo voluptates cupiditate, ipsum provident facere
-                            modi
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus deleniti nulla,
+                            hic
+                            voluptatibus eum voluptatum libero suscipit nemo voluptates cupiditate, ipsum provident
+                            facere modi
                             tempora ducimus enim dicta laborum esse aliquam rem
                             assumenda dolores. Commodi, aperiam, blanditiis! Ipsum iure necessitatibus eaque, fuga.
                             Excepturi
-                            facilis libero dicta soluta officiis, sint sit voluptatem, vero doloribus nesciunt suscipit
-                            dolores
+                            facilis libero dicta soluta officiis, sint sit voluptatem, vero doloribus nesciunt
+                            suscipit dolores
                             veritatis minus quam atque non autem quasi
                             consequatur quae sequi ex, ipsa facere qui ut recusandae. Quod earum cupiditate quaerat
                             assumenda.</p>
@@ -256,25 +266,25 @@
                             <!-- ITEM -->
                             <div class="item">
                                 <a href="#">
-                                    <img src="images/providers/provider-1.png" alt="Image">
+                                    <img src={{ asset('images/providers/provider-1.png') }} alt="Image">
                                 </a>
                             </div>
                             <!-- ITEM -->
                             <div class="item">
                                 <a href="#">
-                                    <img src="images/providers/provider-2.png" alt="Image">
+                                    <img src={{ asset('images/providers/provider-2.png') }} alt="Image">
                                 </a>
                             </div>
                             <!-- ITEM -->
                             <div class="item">
                                 <a href="#">
-                                    <img src="images/providers/provider-3.png" alt="Image">
+                                    <img src={{ asset('images/providers/provider-3.png') }} alt="Image">
                                 </a>
                             </div>
                             <!-- ITEM -->
                             <div class="item">
                                 <a href="#">
-                                    <img src="images/providers/provider-4.png" alt="Image">
+                                    <img src={{ asset('images/providers/provider-4.png') }} alt="Image">
                                 </a>
                             </div>
                         </div>
@@ -284,7 +294,7 @@
                     <div class="brand-info">
                         <div class="inner">
                             <div class="content">
-                                <img src="images/logo-big-transparent.svg" width="100" alt="Image">
+                                <img src={{ asset('images/logo-big-transparent.svg') }} width="100" alt="Image">
                                 <div class="stars">
                                     <i class="fa fa-star" aria-hidden="true"></i>
                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -293,8 +303,8 @@
                                     <i class="fa fa-star" aria-hidden="true"></i>
                                 </div>
                                 <h5 class="title">LUXURY HOTEL</h5>
-                                <p class="mt20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                                    dolorem iste suscipit
+                                <p class="mt20">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    Ad dolorem iste suscipit
                                     voluptates architecto nemo.</p>
                             </div>
                         </div>
@@ -309,92 +319,41 @@
             <div class="section-title">
                 <h4>OUR <span class="text-himara">ROOMS</span></h4>
                 <p class="section-subtitle">Our favorite rooms</p>
-                <a href="rooms-list.html" class="view-all">View all rooms</a>
+                <a href={{ route("roomslist") }} class="view-all">View all rooms</a>
             </div>
             <div class="row">
+                @foreach ($roomAll->shuffle()->take(3) as $room)
+
                 <!-- ITEM -->
                 <div class="col-md-4">
                     <div class="room-grid-item">
                         <figure class="gradient-overlay-hover link-icon">
-                            <a href="room.html">
-                                <img src="images/rooms/single/single1.jpg" class="img-fluid" alt="Image">
+                            <a href="{{ asset('/storage/images/' . $room->img) }}">
+                                <img src="{{ asset('/storage/images/' . $room->img) }}" class="img-fluid"
+                                    alt="Image">
                             </a>
                             <div class="room-services">
-                                <i class="fa fa-coffee" aria-hidden="true" data-toggle="popover" data-placement="right"
-                                    data-trigger="hover" data-content="Breakfast Included"
+                                <i class="fa fa-coffee" aria-hidden="true" data-toggle="popover"
+                                    data-placement="right" data-trigger="hover" data-content="Breakfast Included"
                                     data-original-title="Breakfast"></i>
-                                <i class="fa fa-wifi" aria-hidden="true" data-toggle="popover" data-placement="right"
-                                    data-trigger="hover" data-content="Free WiFi" data-original-title="WiFi"></i>
+                                <i class="fa fa-wifi" aria-hidden="true" data-toggle="popover"
+                                    data-placement="right" data-trigger="hover" data-content="Free WiFi"
+                                    data-original-title="WiFi"></i>
                                 <i class="fa fa-television" data-toggle="popover" data-placement="right"
                                     data-trigger="hover" data-content="Plasma TV with cable channels"
                                     data-original-title="TV"></i>
                             </div>
-                            <div class="room-price">€89 / night</div>
+                            <div class="room-price">{{ $room->prix }}</div>
                         </figure>
                         <div class="room-info">
                             <h2 class="room-title">
-                                <a href="room.html">Single Room</a>
+                                <a href="room.html">{{ $room->category_room->nom }}</a>
                             </h2>
                             <p>Enjoy our single room</p>
                         </div>
                     </div>
                 </div>
-                <!-- ITEM -->
-                <div class="col-md-4">
-                    <div class="room-grid-item">
-                        <figure class="gradient-overlay-hover link-icon">
-                            <a href="room.html">
-                                <img src="images/rooms/double/double.jpg" class="img-fluid" alt="Image">
-                            </a>
-                            <div class="room-services">
-                                <i class="fa fa-coffee" aria-hidden="true" data-toggle="popover" data-placement="right"
-                                    data-trigger="hover" data-content="Breakfast Included"
-                                    data-original-title="Breakfast"></i>
-                                <i class="fa fa-wifi" aria-hidden="true" data-toggle="popover" data-placement="right"
-                                    data-trigger="hover" data-content="Free WiFi" data-original-title="WiFi"></i>
-                                <i class="fa fa-television" data-toggle="popover" data-placement="right"
-                                    data-trigger="hover" data-content="Plasma TV with cable channels"
-                                    data-original-title="TV"></i>
-                            </div>
-                            <div class="room-price">€129 / night</div>
-                        </figure>
-                        <div class="room-info">
-                            <h2 class="room-title">
-                                <a href="room.html">Double Room</a>
-                            </h2>
-                            <p>Enjoy our double room</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="col-md-4">
-                    <div class="room-grid-item">
-                        <figure class="gradient-overlay-hover link-icon">
-                            <a href="room.html">
-                                <img src="images/rooms/deluxe/deluxe.jpg" class="img-fluid" alt="Image">
-                            </a>
-                            <div class="room-services">
-                                <i class="fa fa-coffee" aria-hidden="true" data-toggle="popover" data-placement="right"
-                                    data-trigger="hover" data-content="Breakfast Included"
-                                    data-original-title="Breakfast"></i>
-                                <i class="fa fa-bath" data-toggle="popover" data-placement="right" data-trigger="hover"
-                                    data-content="2 Bathrooms" data-original-title="Bathroom"></i>
-                                <i class="fa fa-wifi" aria-hidden="true" data-toggle="popover" data-placement="right"
-                                    data-trigger="hover" data-content="Free WiFi" data-original-title="WiFi"></i>
-                                <i class="fa fa-television" data-toggle="popover" data-placement="right"
-                                    data-trigger="hover" data-content="Plasma TV with cable channels"
-                                    data-original-title="TV"></i>
-                            </div>
-                            <div class="room-price">€189 / night</div>
-                        </figure>
-                        <div class="room-info">
-                            <h2 class="room-title">
-                                <a href="room.html">Deluxe Room</a>
-                            </h2>
-                            <p>Enjoy our delux room</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -405,83 +364,52 @@
                 <h4>HIMARA. <span class="text-himara">SERVICES</span></h4>
                 <p class="section-subtitle">Check out our awesome services</p>
             </div>
+
             <div class="row">
                 <div class="col-lg-7 col-12">
                     <div data-slider-id="services" class="services-owl owl-carousel">
+                        @foreach ($serviceAll as $item)
                         <figure class="gradient-overlay">
-                            <img src="images/services/restaurant.jpg" class="img-fluid" alt="Image">
+                            <img src={{ asset('images/services/restaurant.jpg') }} class="img-fluid"
+                                alt="Image">
                             <figcaption>
-                                <h4>Restaurant</h4>
+                                <h4>{{ $item->titre }}</h4>
                             </figcaption>
                         </figure>
+
+                        {{-- @if ($loop->iteration ==2)
+
                         <figure class="gradient-overlay">
-                            <img src="images/services/spa.jpg" class="img-fluid" alt="Image">
+                            <img src={{ asset('images/services/spa.jpg') }} class="img-fluid" alt="Image">
                             <figcaption>
-                                <h4>Spa</h4>
+                                <h4>{{ Str::limit($item->titre, 3 )}}</h4>
                             </figcaption>
                         </figure>
-                        <figure class="gradient-overlay">
-                            <img src="images/services/conference.jpg" class="img-fluid" alt="Image">
-                            <figcaption>
-                                <h4>Conference Room</h4>
-                            </figcaption>
-                        </figure>
-                        <figure class="gradient-overlay">
-                            <img src="images/services/swimming.jpg" class="img-fluid" alt="Image">
-                            <figcaption>
-                                <h4>Swimming Pool</h4>
-                            </figcaption>
-                        </figure>
+                        @endif --}}
+
+                        @endforeach
                     </div>
                 </div>
+
+
                 <div class="col-lg-5 col-12">
+                    @foreach ($serviceAll as $item)
                     <div class="owl-thumbs" data-slider-id="services">
                         <div class="owl-thumb-item">
                             <span class="media-left">
-                                <i class="flaticon-tray-1"></i>
+                                <i class="{{ $item->logo }}"></i>
                             </span>
                             <div class="media-body">
-                                <h5>Restaurant</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                                    tincidunt
-                                    ut laoreet.</p>
+                                <h5>{{ $item->titre }}</h5>
+                                <p>{{$item->description}}</p>
                             </div>
                         </div>
-                        <div class="owl-thumb-item">
-                            <span class="media-left">
-                                <i class="flaticon-nature"></i>
-                            </span>
-                            <div class="media-body">
-                                <h5>Spa - Beauty &amp; Health</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                                    tincidunt
-                                    ut laoreet.</p>
-                            </div>
-                        </div>
-                        <div class="owl-thumb-item">
-                            <span class="media-left">
-                                <i class="flaticon-screen-1"></i>
-                            </span>
-                            <div class="media-body">
-                                <h5>Conference Room</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                                    tincidunt
-                                    ut laoreet.</p>
-                            </div>
-                        </div>
-                        <div class="owl-thumb-item">
-                            <span class="media-left">
-                                <i class="flaticon-sports"></i>
-                            </span>
-                            <div class="media-body">
-                                <h5>Swimming Pool</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                                    tincidunt
-                                    ut laoreet.</p>
-                            </div>
-                        </div>
+
                     </div>
+                    @endforeach
                 </div>
+
+
             </div>
         </div>
     </section>
@@ -491,100 +419,29 @@
             <div class="section-title">
                 <h4>HIMARA. <span class="text-himara">GALLERY</span></h4>
                 <p class="section-subtitle">Check out our image gallery</p>
-                <a href="gallery.html" class="view-all">View gallery images</a>
+                <a href={{ route("gallery.all") }} class="view-all">View gallery images</a>
             </div>
+
             <div class="gallery-owl owl-carousel image-gallery">
+
                 <!-- ITEM -->
+                @foreach ($imageAll->shuffle()->take(5) as $image)
                 <div class="gallery-item">
+
                     <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery1.jpg">
-                            <img src="images/gallery/gallery1.jpg" alt="Image">
+                        <a href= "{{ asset('/storage/images/'. $image->url) }}">
+                            {{-- <a href={{ asset('images/gallery/gallery1.jpg') }}> --}}
+
+                            <img src="{{ asset('/storage/images/'. $image->url) }}" alt="Image">
+                            {{-- <img src={{ asset('images/gallery/gallery1.jpg') }} alt="Image"> --}}
                         </a>
-                        <figcaption>Swimming Pool</figcaption>
+                        <figcaption>{{ $image->nom }} test</figcaption>
                     </figure>
                 </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery2.jpg">
-                            <img src="images/gallery/gallery2.jpg" alt="Image">
-                        </a>
-                        <figcaption>Room View</figcaption>
-                    </figure>
-                </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery3.jpg">
-                            <img src="images/gallery/gallery3.jpg" alt="Image">
-                        </a>
-                        <figcaption>Cocktail</figcaption>
-                    </figure>
-                </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery4.jpg">
-                            <img src="images/gallery/gallery4.jpg" alt="Image">
-                        </a>
-                        <figcaption>Breakfast</figcaption>
-                    </figure>
-                </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery5.jpg">
-                            <img src="images/gallery/gallery5.jpg" alt="Image">
-                        </a>
-                        <figcaption>Playground</figcaption>
-                    </figure>
-                </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery6.jpg">
-                            <img src="images/gallery/gallery6.jpg" alt="Image">
-                        </a>
-                        <figcaption>Restaurant</figcaption>
-                    </figure>
-                </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery7.jpg">
-                            <img src="images/gallery/gallery7.jpg" alt="Image">
-                        </a>
-                        <figcaption>Wedding Ceremony</figcaption>
-                    </figure>
-                </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery8.jpg">
-                            <img src="images/gallery/gallery8.jpg" alt="Image">
-                        </a>
-                        <figcaption>Beach</figcaption>
-                    </figure>
-                </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery9.jpg">
-                            <img src="images/gallery/gallery9.jpg" alt="Image">
-                        </a>
-                        <figcaption>Honeymoon Room</figcaption>
-                    </figure>
-                </div>
-                <!-- ITEM -->
-                <div class="gallery-item">
-                    <figure class="gradient-overlay image-icon">
-                        <a href="images/gallery/gallery10.jpg">
-                            <img src="images/gallery/gallery10.jpg" alt="Image">
-                        </a>
-                        <figcaption>Sea</figcaption>
-                    </figure>
-                </div>
+                @endforeach
+
             </div>
+
         </div>
     </section>
     <!-- ========== TESTIMONIALS ========== -->
@@ -595,15 +452,16 @@
                 <p class="section-subtitle">What our guests are saying about us</p>
             </div>
             <div class="owl-carousel testimonials-owl">
+                @foreach ($comments as $comment)
                 <!-- ITEM -->
                 <div class="item">
                     <div class="testimonial-item">
                         <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user1.jpg">
+                            <img alt="Image" class="img-fluid" src={{ asset('images/users/user1.jpg') }}>
                         </div>
                         <div class="author">
-                            <h4 class="name">Marlene Simpson</h4>
-                            <div class="location">Madrid / Spain</div>
+                            <h4 class="name">{{ $comment->name }}</h4>
+                            <div class="location">{{ $comment->name }}</div>
                         </div>
                         <div class="rating">
                             <i class="fa fa-star voted" aria-hidden="true"></i>
@@ -612,184 +470,17 @@
                             <i class="fa fa-star voted" aria-hidden="true"></i>
                             <i class="fa fa-star voted" aria-hidden="true"></i>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
+                        <p>{{$comment->commentaire}}</p>
                     </div>
                 </div>
-                <!-- ITEM -->
-                <div class="item">
-                    <div class="testimonial-item">
-                        <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user2.jpg">
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Brad Knight</h4>
-                            <div class="location">Athens / Greece</div>
-                            <div class="rating">
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="item">
-                    <div class="testimonial-item">
-                        <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user3.jpg">
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Daryl Phillips</h4>
-                            <div class="location">Lisbon / Portugal</div>
-                            <div class="rating">
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="item">
-                    <div class="testimonial-item">
-                        <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user4.jpg">
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Felecia Lawson</h4>
-                            <div class="location">Paris / France</div>
-                            <div class="rating">
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="item">
-                    <div class="testimonial-item">
-                        <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user5.jpg">
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Joanne Robinson</h4>
-                            <div class="location">New York / USA</div>
-                            <div class="rating">
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="item">
-                    <div class="testimonial-item">
-                        <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user6.jpg">
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Emily Hill</h4>
-                            <div class="location">Rome / Italy</div>
-                            <div class="rating">
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="item">
-                    <div class="testimonial-item">
-                        <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user7.jpg">
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Mabel Hicks</h4>
-                            <div class="location">Moscow / Russia</div>
-                            <div class="rating">
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="item">
-                    <div class="testimonial-item">
-                        <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user8.jpg">
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Kent Lambert</h4>
-                            <div class="location">Berlin / Germany</div>
-                            <div class="rating">
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="item">
-                    <div class="testimonial-item">
-                        <div class="author-img">
-                            <img alt="Image" class="img-fluid" src="images/users/user9.jpg">
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Gerald Schmidt</h4>
-                            <div class="location">Zagreb / Croatia</div>
-                            <div class="rating">
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star voted" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec turpis a nunc convallis
-                            condimentum. Sed odio nisl, mattis eget interdum non, pretium et lacus.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
     <!-- ========== RESTAURANT ========== -->
-    <section class="restaurant image-bg parallax gradient-overlay op5" data-src="images/restaurant.jpg"
-        data-parallax="scroll" data-speed="0.3" data-mirror-selector=".wrapper" data-z-index="0">
+    <section class="restaurant image-bg parallax gradient-overlay op5"
+        data-src={{ asset('images/restaurant.jpg') }} data-parallax="scroll" data-speed="0.3"
+        data-mirror-selector=".wrapper" data-z-index="0">
         <div class="container">
             <div class="section-title">
                 <h4>HIMARA. RESTAURANT</h4>
@@ -802,7 +493,8 @@
                         <div class="row">
                             <div class="col-lg-4 col-12">
                                 <figure>
-                                    <img src="images/restaurant/restaurant1.jpg" class="img-fluid " alt="Image">
+                                    <img src={{ asset('images/restaurant/restaurant1.jpg') }}
+                                        class="img-fluid " alt="Image">
                                 </figure>
                             </div>
                             <div class="col-lg-8 col-12">
@@ -827,7 +519,8 @@
                         <div class="row">
                             <div class="col-lg-4 col-12">
                                 <figure>
-                                    <img src="images/restaurant/restaurant2.jpg" class="img-fluid" alt="Image">
+                                    <img src={{ asset('images/restaurant/restaurant2.jpg') }}
+                                        class="img-fluid" alt="Image">
                                 </figure>
                             </div>
                             <div class="col-lg-8 col-12">
@@ -857,29 +550,30 @@
                 <p class="section-subtitle">Check out our latest news</p>
             </div>
             <div class="row">
+                @foreach ($blogAll->shuffle()->take(3) as $item)
                 <!-- ITEM -->
                 <div class="col-md-4">
                     <div class="news-grid-item">
                         <figure class="gradient-overlay-hover link-icon">
-                            <a href="blog-post.html">
-                                <img src="images/blog/blog-post1.jpg" class="img-fluid" alt="Image">
+                            <a href={{ route("blogLast",$item->id)  }}>
+                                <img src="{{ asset('/storage/images/'. $item->img) }}" class="img-fluid"
+                                    alt="Image">
                             </a>
                         </figure>
                         <div class="news-info">
                             <h4 class="title">
-                                <a href="blog-post.html">10 Tips for Holiday Travel</a>
+                                <a href={{ route("blogLast",$item->id)  }}>{{ $item->title }}</a>
                             </h4>
-                            <p>An examination of how the current political and economical climate is affecting the mental
-                                healthcare
-                                industry...</p>
+                            <p>{{ Str::limit($item->description, 100) }}</p>
                             <div class="post-meta">
                                 <span class="author">
-                                    <a href="#"><img src="images/users/admin.jpg" width="16" alt="Image">
-                                        JANE</a>
+                                    <a href="#"><img src={{ asset('images/users/admin.jpg') }} width="16"
+                                            alt="Image">
+                                        {{ $item->auteur }}</a>
                                 </span>
                                 <span class="date">
                                     <i class="fa fa-clock-o"></i>
-                                    August 13, 2017</span>
+                                    {{ $item->creation }}</span>
                                 <span class="comments">
                                     <a href="#">
                                         <i class="fa fa-commenting-o"></i>
@@ -889,80 +583,18 @@
                         </div>
                     </div>
                 </div>
-                <!-- ITEM -->
-                <div class="col-md-4">
-                    <div class="news-grid-item">
-                        <figure class="gradient-overlay-hover link-icon">
-                            <a href="blog-post.html">
-                                <img src="images/blog/blog-post2.jpg" class="img-fluid" alt="Image">
-                            </a>
-                        </figure>
-                        <div class="news-info">
-                            <h4 class="title">
-                                <a href="blog-post.html">Enjoy your holidays</a>
-                            </h4>
-                            <p>An examination of how the current political and economical climate is affecting the mental
-                                healthcare
-                                industry...</p>
-                            <div class="post-meta">
-                                <span class="author">
-                                    <a href="#"><img src="images/users/admin.jpg" width="16" alt="Image">
-                                        JANE</a>
-                                </span>
-                                <span class="date">
-                                    <i class="fa fa-clock-o"></i>
-                                    August 16, 2017</span>
-                                <span class="comments">
-                                    <a href="#">
-                                        <i class="fa fa-commenting-o"></i>
-                                        5 Comments</a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- ITEM -->
-                <div class="col-md-4">
-                    <div class="news-grid-item">
-                        <figure class="gradient-overlay-hover link-icon">
-                            <a href="blog-post.html">
-                                <img src="images/blog/blog-post3.jpg" class="img-fluid" alt="Image">
-                            </a>
-                        </figure>
-                        <div class="news-info">
-                            <h4 class="title">
-                                <a href="blog-post.html">Honeymoon at Hotel Himara</a>
-                            </h4>
-                            <p>An examination of how the current political and economical climate is affecting the mental
-                                healthcare
-                                industry...</p>
-                            <div class="post-meta">
-                                <span class="author">
-                                    <a href="#"><img src="images/users/admin.jpg" width="16" alt="Image">
-                                        JANE</a>
-                                </span>
-                                <span class="date">
-                                    <i class="fa fa-clock-o"></i>
-                                    January 11, 2018</span>
-                                <span class="comments">
-                                    <a href="#">
-                                        <i class="fa fa-commenting-o"></i>
-                                        3 Comments</a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
-    <!-- ========== VIDEO ========== -->
-    <section class="video np parallax gradient-overlay op6" data-src="images/video.jpg" data-parallax="scroll"
-        data-speed="0.3" data-mirror-selector=".wrapper" data-z-index="0">
+    {{-- <!-- ========== VIDEO ========== -->{{ asset('images/video.jpg') }} --}}
+    <section class="video np parallax gradient-overlay op6"
+        data-src={{ asset('images/video.jpg') }} data-parallax="scroll" data-speed="0.3"
+        data-mirror-selector=".wrapper" data-z-index="0">
         <div class="inner gradient-overlay">
             <div class="container">
                 <div class="video-popup">
-                    <a class="popup-vimeo" href="https://www.youtube.com/watch?v=BDDfopejpwk">
+                    <a class="popup-vimeo" href={{ $video->url }}>
                         <i class="fa fa-play"></i>
                     </a>
                 </div>
@@ -982,24 +614,26 @@
                     <ul class="contact-details">
                         <li>
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
-                            Lorem ipsum dolor, 25, Himara
+                            {{ $infoAll->adresse }}
                         </li>
                         <li>
                             <i class="fa fa-phone" aria-hidden="true"></i>
-                            Phone: +1 888 123 4567
+                            {{ $infoAll->mail }}
                         </li>
                         <li>
                             <i class="fa fa-fax"></i>
-                            Fax: +1 888 123 4567
+                            {{ $infoAll->telephone }}
                         </li>
                         <li>
                             <i class="fa fa-globe"></i>
-                            Web: www.hotelhimara.com
+                            {{ $infoAll->fax }}
+
                         </li>
                         <li>
                             <i class="fa fa-envelope"></i>
                             Email:
-                            <a href="mailto:info@site.com">contact@hotelhimara.com</a>
+                            <a href="mailto:info@site.com">                            {{ $infoAll->site }}
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -1008,12 +642,14 @@
                         <h4>CONTACT US</h4>
                         <p class="section-subtitle">Say hello</p>
                     </div>
-                    <form id="contact-form" name="contact-form">
+                    <form class="contact-form" action="{{ route('contact.store') }}" method="POST">
+                        @csrf
                         <div class="form-group">
-                            <input class="form-control" name="name" placeholder="Your Name" type="text">
+                            <input class="form-control" name="fullname" placeholder="Your Name and last name" type="text">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="email" type="email" placeholder="Your Email Address">
+                            <input class="form-control" name="email" type="email"
+                                placeholder="Your Email Address">
                         </div>
                         <div class="form-group">
                             <textarea class="form-control" name="message" placeholder="Your Message"></textarea>
@@ -1025,4 +661,5 @@
             </div>
         </div>
     </section>
+</div>
 @endsection

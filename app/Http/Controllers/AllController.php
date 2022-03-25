@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Carousel;
 use App\Models\categorieArticle;
+use App\Models\categorieRoom;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Gallery;
 use App\Models\Info;
+use App\Models\Room;
+use App\Models\Service;
 use App\Models\Tag;
+use App\Models\tagRoom;
 use App\Models\Team;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 
@@ -17,7 +23,18 @@ class AllController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $categories = categorieRoom::all();
+        $serviceAll = Service::all();
+        $roomAll = Room::all();
+        // $categoryRoom = categorieRoom::all();
+        $imageAll = Gallery::all();
+        $blogAll = Article::all();
+        $infoAll = Info::first();
+        $video = Video::first();
+        $carousel = Carousel::all();
+        $comments = Comment::inRandomOrder()->take(9)->get();
+
+        return view("home", compact("serviceAll", "roomAll", "imageAll", "blogAll", "infoAll", "video", "carousel", 'comments',"categories"));
     }
     public function rooms()
     {
@@ -102,6 +119,28 @@ class AllController extends Controller
        $comment = Comment::all();
 
        return view("template.pages.blogpost",compact("blog","comment"));
+    }
+    public function videosDisplay()
+    {
+        $video = Video::first();
+        return view("admin.video.index", compact("video"));
+    }
+
+    public function reservRoom()
+    {
+        $categories = categorieRoom::all();
+        $offers = Room::inRandomOrder()->take(3)->get();
+        return view("pages.bookingform", compact('categories', 'offers'));
+    }
+
+    public function roomslist()
+    {
+        // $roomListAll = Room::all();
+        $tagRoom = tagRoom::all();
+        $categoryRoom = categorieRoom::all();
+        $roomListAll = Room::orderBy("created_at","desc")->paginate(2);
+
+        return view("pages.roomslist", compact("roomListAll", "tagRoom", "categoryRoom"));
     }
 
 }

@@ -2,10 +2,14 @@
 
 use App\Http\Controllers\AllController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +22,26 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//reserv room
+Route::get('/pages/BOOK/BookRoom', [FrontController::class, "reservRoom"])->name('reservRoom');
+Route::get('/pages/RoomsList', [AllController::class, "roomslist"])->name('roomslist');
+
+//video controller
+Route::get('/dashboard/videos', [AllController::class, "videosDisplay"])->middleware(["auth"])->name('video.index');
+// // edit
+route::get("/admin/video/videos/{video}/editindexvideo",[VideoController::class,"edit"])->name("video.edit");
+Route::put('/dashboard/video/update', [VideoController::class, "update"])->middleware(["auth"])->name('video.update');
+
+//carousel
+Route::get('/dashboard/carousel', [CarouselController::class, "affichage"])->middleware(["auth"])->name('carousel.index');
+// edit
+route::get("/admin/home/carousel/{carousel}/editindexcarousel", [CarouselController::class, "edit"])->name("carousel.edit");
+
+//reservation
+Route::get('/dashboard/reservation', [ReservationController::class, "index"])->middleware(["auth"])->name('reservation.index');
+Route::get('/dashboard/reservation/{id}/validate', [ReservationController::class, "update"])->middleware(["auth"])->name('reservation.update');
+Route::post("/reservation", [ReservationController::class, 'store'])->name('reservation.store');
 
 //front
 Route::get('/', [AllController::class, 'home'])->name("home");
@@ -43,6 +67,21 @@ Route::post("/{id}/commentaires", [CommentController::class,"store"]);
 Route::delete("/comments/{id}/delete", [CommentController::class, "destroy"]);
 Route::get("/comments/{id}/edit", [CommentController::class, "edit"]);
 Route::put("/comments/{id}/update", [CommentController::class, "update"]);
+
+// ROOM crud
+// store
+route::post("/admin/chambre/room/stores", [RoomController::class, "store"])->name("rooms.store");
+// create
+route::get("/admin/room/chambre/creates", [RoomController::class, "create"])->name("rooms.create");
+// edit
+route::get("/admin/room/chambre/{rooms}/editindex", [RoomController::class, "edit"])->name("rooms.edit");
+// update
+route::put("/admin/chambre/room/{rooms}/updateindex", [RoomController::class, "update"])->name("rooms.update");
+//affichage
+Route::get('/dashboard/roomss', [RoomController::class, "affichage"])->middleware(["auth"])->name('room.index');
+// destroy
+Route::delete('/admin/chambre/room/{rooms}/deleteRoom', [RoomController::class, "destroy"])->name("rooms.destroy");
+
 
 
 
